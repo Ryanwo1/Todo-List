@@ -1,4 +1,9 @@
 const path = require('path');
+let mode =  'development';
+
+if (process.env.NODE_ENV === 'production') {
+    mode = "production";
+}
 
 module.exports = {
   entry: './src/index.js',
@@ -16,4 +21,4 @@ module.exports = {
         },
       },
   },
-  mode: 'development'};
+  mode: mode};
