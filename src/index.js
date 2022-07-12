@@ -1,6 +1,6 @@
 let ryan = {
     cool: "yes",
-    smart: "super",
+    smart: "super yay",
 }
 
 console.log(ryan);
