@@ -2,7 +2,7 @@ import "./styles/index.css";
 
 let ryan = {
     cool: "yes",
-    smart: "super duperrrrrrrrrrrrr",
+    smart: "AAAAAAAAAAAAAAA",
 }
 
 console.log(ryan);
