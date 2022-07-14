@@ -13,15 +13,23 @@ module.exports = {
     rules: [
         {
             test: /\.css$/i,
-            use: [MiniCssExtractPlugin.loader, "css-loader"],
+            use: [{
+              loader: MiniCssExtractPlugin.loader,
+              options:  {publicPath: ""},
+          }, "css-loader",],
+        },
+        {
+           test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
+           type: "asset/resource",
         }
     ],
     },
   entry: './src/index.js',
   output: {
-    filename: 'main.js',
+    filename: '[name].[contenthash].js',
     clean: true,
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: "[name][ext]",
   },
   plugins: [new MiniCssExtractPlugin(), new HtmlWebpackPlugin({
     template: "./src/index.html",
