@@ -9,7 +9,7 @@ logoSvg.src = logoVersionSvg;
 logoPng.src = logoVersionPng;
 
 let ryan = {
-    cool: "dgfffkk",
+    cool: "fsdsasd",
 }
 
 console.log(ryan);
