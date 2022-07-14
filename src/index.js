@@ -27,10 +27,10 @@ function showInputFieldsForNewtask() {
     dueDateOfTaskInputField.setAttribute("id", "due-date-input-field");
     dueDateTextParagraph.innerHTML = "Due Date";
 
-    mainAppTitle.append(titleOfTaskInputField);
-    mainAppTitle.append(titleTextParagraph);
-    mainAppTitle.append(dueDateOfTaskInputField);
-    mainAppTitle.append(dueDateTextParagraph);
+    mainAppTitle.after(titleOfTaskInputField);
+    mainAppTitle.after(titleTextParagraph);
+    mainAppTitle.after(dueDateOfTaskInputField);
+    mainAppTitle.after(dueDateTextParagraph);
 }
 
 addTaskButton.addEventListener("click", showInputFieldsForNewtask);
