@@ -3,6 +3,8 @@
     --font-family-body: var(--font-family-primary);
     --font-family-head: var(--font-family-primary);
 
+    --primary-text-colour: #ee5244;
+
     --background-colour: #1f1f1f;
     --accent-colour: #282828;
     
@@ -132,8 +134,29 @@ header {
   grid-area: header;
 }
 
-#app > main {
+main {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+
+main > button {
+  background-color: wheat;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+main h1 {
+  margin-bottom: 1rem;
+  display: block;
 }
 
 #sidebar {
