@@ -105,19 +105,22 @@ body {
   display: grid;
 
   grid-template-areas: 
-    'sidebar header header header header'
-    'sidebar main   main   main   main'
-    'sidebar main   main   main   main'
-    'sidebar main   main   main   main'
-    'sidebar main   main   main   main'
-    'sidebar main   main   main   main'
-    'sidebar main   main   main   main'; 
+    'sidebar header header header header header header header header header header header'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'
+    'sidebar main   main   main   main   main   main   main   main   main   main   main'; 
 }
 
 #logo-svg {
   height: 2rem;
   width: 2rem;
-  margin-left: 4rem;
+  margin-left: 2.5rem;
   margin-top: 0.5rem;
 }
 
@@ -190,6 +193,31 @@ main h1 {
 
 #left-header-flex-container > *, #right-header-flex-container > * {
   margin: 0.4rem 0.5rem 0 0.5rem;
+}
+
+.individual-task {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  
+}
+
+
+.individual-task > * {
+  display: grid;
+}
+
+.individual-task input {
+  margin: auto;
+  width: 70%;
+}
+
+input {
+  display: block;
+}
+
+.task-to-be-added {
+  display: grid;
 }
 
 
