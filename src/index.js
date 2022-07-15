@@ -1,5 +1,6 @@
 import "./styles/index.css";
 import logoVersionSvg from "./img/todoist-seeklogo.com.svg";
+import { format, compareAsc } from 'date-fns';
 
 const logoSvg = document.getElementById("logo-svg");
 logoSvg.src = logoVersionSvg;
@@ -48,6 +49,11 @@ const toDoListMainList = (function () {
     };
 })();
 
+function toDoListItemAsObject(title, dueDate) {
+    this.title = title;
+    this.dueDate = dueDate;
+}
+
 
 
 function makeIndividualTaskContainer() {
@@ -72,21 +78,25 @@ function makeIndividualPropertyLabel(attributeName, attributeValue, buttonText) 
     return individualPropertyLabel;
 }
 
-function createInputBox(attributeName, attributeValue) {
+function createInputBox(arrayOfKeyValuePairings) {
     const inputBox = document.createElement("input");
-    inputBox.setAttribute(`${attributeName}`, `${attributeValue}`);
+    
+     Object.entries(arrayOfKeyValuePairings).forEach(([key, value]) => {
+        inputBox.setAttribute(`${key}`, `${value}`);
+    });
 
     return inputBox;
 }
 
+// attributeName: id attributeValue: task-name      attributeName: type, attributeValue text
 function showInputFieldsForNewTask() {
     const individualTaskContainerDiv = makeIndividualTaskContainer();
     const individualTaskNameContainerDiv = makeindividualTaskPropertyContainer();
     const individualTaskNameTitle = makeIndividualPropertyLabel("for", "task-name", "Task Name");
-    const individualTaskNameInputField = createInputBox("id", `task-name`);
+    const individualTaskNameInputField = createInputBox({"id": "task-name", "type": "text"});
     const individualDueDateContainer = makeindividualTaskPropertyContainer();
     const individualDueDateLabel = makeIndividualPropertyLabel("for", "due-date", "Due Date");
-    const individualDueDateInput = createInputBox("id", "due-date");
+    const individualDueDateInput = createInputBox({"id": "due-date"});
 
     // append input box and label to container div
     individualTaskNameContainerDiv.appendChild(individualTaskNameTitle);
@@ -105,10 +115,14 @@ function showInputFieldsForNewTask() {
     // append task to list
     toDoListMainSection.append(individualTaskContainerDiv);
 
-    // ${toDoListMainList.numberOfTasks}
-    toDoListMainList.addTask(individualTaskContainerDiv);
-    toDoListMainList.showNumberOfTasks();
-    toDoListMainList.showTasks();
+    // convert task to object and add to tasklist
+    const individualTaskNameAsString = document.getElementById("task-name").value;
+    const individualTaskDueDateAsNumber = 0;
+
+    const taskAsObject = new toDoListItemAsObject(individualTaskNameAsString, individualTaskDueDateAsNumber);
+    toDoListMainList.addTask(taskAsObject);
+    // toDoListMainList.showNumberOfTasks();
+    // toDoListMainList.showTasks();
 }
 
 addTaskButton.addEventListener("click", showInputFieldsForNewTask);

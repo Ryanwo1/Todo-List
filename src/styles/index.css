@@ -198,7 +198,7 @@ main h1 {
 .individual-task {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 0.0rem;
   
 }
 
@@ -209,7 +209,9 @@ main h1 {
 
 .individual-task input {
   margin: auto;
-  width: 70%;
+  width: 80%;
+  border: 2px solid gray;
+  border-radius: 100vmax;
 }
 
 input {
