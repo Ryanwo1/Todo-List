@@ -218,8 +218,18 @@ input {
   display: block;
 }
 
-.task-to-be-added {
+.individual-task {
   display: grid;
+}
+
+#add-button {
+  grid-column: 2 / 3;
+  margin-top: 1rem;
+  margin-left: 3.5rem;
+  padding: 0.5rem;
+  justify-self: center;
+  width: 40%;
+  background-color: var(--primary-text-colour);
 }
 
 
