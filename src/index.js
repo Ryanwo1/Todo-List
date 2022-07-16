@@ -17,7 +17,7 @@ const appState = (function () {
 
     return {
         getStateOfNewTaskBoxes: function() {return newTaskInputBoxesAppearing;},
-        setStateOfNewTaskBoxes: function() {newTaskInputBoxesAppearing = !newTaskInputBoxesAppearing;},
+        toggleStateOfNewTaskBoxes: function() {newTaskInputBoxesAppearing = !newTaskInputBoxesAppearing;},
     }
 })();
 
@@ -169,13 +169,13 @@ function displayAddNewTaskToListButton() {
 }
 
 
-function showInputFieldsForNewTask(e) {
+function showInputFieldsForNewTask() {
     if (appState.getStateOfNewTaskBoxes()) {
         alert("only 1 box at a time!");
         return;
     }
     // toggle to true if we currently have a task to be added
-    appState.setStateOfNewTaskBoxes();
+    appState.toggleStateOfNewTaskBoxes();
 
     const individualTaskContainerDiv = makeIndividualTaskContainer();
     const individualTaskNameContainerDiv = makeindividualTaskPropertyContainer();
@@ -225,10 +225,9 @@ function addTaskToList() {
     }
     console.log(currentTaskWaitingToBeAdded.getTaskName());
     console.log(currentTaskWaitingToBeAdded.getDueDate());
-    alert("test ryan test");
+
 
     if (!currentTaskWaitingToBeAdded.getTaskName() || !currentTaskWaitingToBeAdded.getDueDate()) {
-        alert("error!");
         return
     }
 
@@ -249,6 +248,17 @@ function addTaskToList() {
     const mainHeading = document.getElementById("main-app-title");
     mainHeading.appendChild(individualTaskContainerDiv);
 
+    removeInputFields(mainHeading);
+
+    appState.toggleStateOfNewTaskBoxes();
+
+}
+
+function removeInputFields(parentNode) {
+    const matches = document.querySelectorAll("main > div");
+        matches.forEach(function(node) {
+            node.remove();
+      });
 }
 
 addTaskButton.addEventListener("click", showInputFieldsForNewTask);
