@@ -147,7 +147,7 @@ main {
   align-items: center;
 }
 
-main > button {
+main button {
   background-color: wheat;
   color: black;
   padding: 10px 20px;
