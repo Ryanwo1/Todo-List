@@ -12,7 +12,7 @@ const mainAppTitle = document.getElementById("main-app-title");
 const addTaskButton = document.getElementById("new-task-button");
 const addProjectButton = document.getElementById("new-project-button");
 const toDoListMainSection = document.getElementById("todo-list-main-section");
-
+const todoMainProjectSection = document.getElementById("projects-container");
 const appState = (function () {
     let newTaskInputBoxesAppearing = false;
     let newProjectInputBoxesAppearing = false;
@@ -27,12 +27,13 @@ const appState = (function () {
 
 const listOfProjects = (function() {
     const currentProjects = [];
-
     return {
         getCurrentProjects: function() {return currentProjects;},
         showCurrentProjects: function() {console.log(currentProjects);},
         isProjectListEmpty: function() {return !currentProjects.length;},
-        addNewProject: function() {currentProjects.push(toDoListMainList.getTasks())},  
+        addNewProject: function() {currentProjects.push(toDoListMainList.getTasks());},
+        getNumberOfProjects: function() {return currentProjects.length + 1;},
+        showNumberOfProjects: function() {return currentProjects.length + 1;},
         currentProjects
 
     }
@@ -137,11 +138,18 @@ function toDoListItemAsObject(title, dueDate) {
 function makeIndividualTaskContainer() {
     const individualTaskContainer = document.createElement("div");
     individualTaskContainer.setAttribute("id", `task-number-${toDoListMainList.numberOfTasks}`)
-    individualTaskContainer.classList.add("individual-task")
+    individualTaskContainer.classList.add("individual-task");
     return individualTaskContainer;
 }
 
-function makeindividualTaskPropertyContainer() {
+function makeIndividualProjectContainer() {
+    const projectTaskContainer = document.createElement("div");
+    projectTaskContainer.setAttribute("id", `project-number-${listOfProjects.getNumberOfProjects()}`);
+    projectTaskContainer.classList.add("individual-task");
+    return projectTaskContainer;
+}
+
+function makePropertyContainer() {
     const individualTaskNameContainer = document.createElement("div");
     individualTaskNameContainer.classList.add(".individual-task");
 
@@ -166,59 +174,69 @@ function createInputBox(arrayOfKeyValuePairings) {
     return inputBox;
 }
 
-function displayAddNewTaskToListButton() {
+
+function displayAddNewTaskToListButton(functionToAddToListener) {
     const finalizeAddTaskButton = document.createElement("button");
     finalizeAddTaskButton.setAttribute("type", "button");
     finalizeAddTaskButton.innerHTML = "+";
     finalizeAddTaskButton.setAttribute("id", "add-button");
     // eventlistener will add to task list when clicked
-    finalizeAddTaskButton.addEventListener("click", addTaskToList);
+    finalizeAddTaskButton.addEventListener("click", functionToAddToListener);
     return finalizeAddTaskButton;
 }
 
+function addNewProjectToListButton() {
+
+}
+
 function showInputFieldsForNewProject() {
-    const newProjectContainerDiv = document.createElement("div");
-    const neewProjectNameField = document.createElement("div");
+    const projectTaskContainerDiv = makeIndividualProjectContainer();
+    const projectTaskNameContainerDiv = makePropertyContainer();
+    
+    if (appState.getStateOfNewTaskBoxes()) {
+        alert("only 1 box at a time!");
+        return;
+    }
 
-    appState.toggleStateOfNewTaskBoxes();
+    appState.toggleStateOfNewProjectBoxes();
 
-    // const individualTaskContainerDiv = makeIndividualTaskContainer();
-    // const individualTaskNameContainerDiv = makeindividualTaskPropertyContainer();
-    // const individualTaskNameTitle = makeIndividualPropertyLabel("for", "task-name", "Task Name");
-    // const individualTaskNameInputField = createInputBox({"id": "task-name", "type": "text", "required": "true"});
-    // const individualDueDateContainer = makeindividualTaskPropertyContainer();
-    // const individualDueDateLabel = makeIndividualPropertyLabel("for", "due-date", "Due Date");
-    // const individualDueDateInput = createInputBox({"id": "due-date", "type": "date", "required": "true"});
+    const individualProjectNameTitle = makeIndividualPropertyLabel("for", "task-name", "Project Name");
+    const individualProjectNameInputField = createInputBox({"id": "task-name", "type": "text", "required": "true"});
+    const individualPriorityContainer = makePropertyContainer();
+    const individualPriorityLabel = makeIndividualPropertyLabel("for", "priority", "Priority");
+    const individualPriorityInput = createInputBox({"id": "priority", "type": "range", "required": "true", "min": 0, "max": 10});
 
 
     // // append input box and label to container div
-    // individualTaskNameContainerDiv.appendChild(individualTaskNameTitle);
-    // individualTaskNameContainerDiv.appendChild(individualTaskNameInputField);
+    projectTaskNameContainerDiv.appendChild(individualProjectNameTitle);
+    projectTaskNameContainerDiv.appendChild(individualProjectNameInputField);
 
 
-    // //append due date input box and label to individual due date container
-
-    // individualDueDateContainer.appendChild(individualDueDateLabel);
-    // individualDueDateContainer.appendChild(individualDueDateInput);
+    // //append priority input box and label to individual priority container
+    individualPriorityContainer.appendChild(individualPriorityLabel);
+    individualPriorityContainer.appendChild(individualPriorityInput);
 
     // // append task name and due date containers to individual task container, forming an individual task on the page.
-
-    // individualTaskContainerDiv.appendChild(individualTaskNameContainerDiv);
-    // individualTaskContainerDiv.appendChild(individualDueDateContainer)
-    // individualTaskContainerDiv.appendChild(displayAddNewTaskToListButton());
+    projectTaskContainerDiv.appendChild(projectTaskNameContainerDiv);
+    projectTaskContainerDiv.appendChild(individualPriorityContainer);
+    projectTaskContainerDiv.appendChild(displayAddNewTaskToListButton(addProjectToList));
 
     // // append task to list
-    // toDoListMainSection.append(individualTaskContainerDiv);
+    toDoListMainSection.append(projectTaskContainerDiv);
+
+}
+
+function addProjectToList() {
 
 }
 
 
 function showInputFieldsForNewTask() {
 
-    if (listOfProjects.isProjectListEmpty()) {
-        alert("Make a project first!");
-        return;
-    }
+    // if (listOfProjects.isProjectListEmpty()) {
+    //     alert("Make a project first!");
+    //     return;
+    // }
 
     if (appState.getStateOfNewTaskBoxes()) {
         alert("only 1 box at a time!");
@@ -231,10 +249,10 @@ function showInputFieldsForNewTask() {
     appState.toggleStateOfNewTaskBoxes();
 
     const individualTaskContainerDiv = makeIndividualTaskContainer();
-    const individualTaskNameContainerDiv = makeindividualTaskPropertyContainer();
+    const individualTaskNameContainerDiv = makePropertyContainer();
     const individualTaskNameTitle = makeIndividualPropertyLabel("for", "task-name", "Task Name");
     const individualTaskNameInputField = createInputBox({"id": "task-name", "type": "text", "required": "true"});
-    const individualDueDateContainer = makeindividualTaskPropertyContainer();
+    const individualDueDateContainer = makePropertyContainer();
     const individualDueDateLabel = makeIndividualPropertyLabel("for", "due-date", "Due Date");
     const individualDueDateInput = createInputBox({"id": "due-date", "type": "date", "required": "true"});
 
@@ -253,7 +271,7 @@ function showInputFieldsForNewTask() {
 
     individualTaskContainerDiv.appendChild(individualTaskNameContainerDiv);
     individualTaskContainerDiv.appendChild(individualDueDateContainer)
-    individualTaskContainerDiv.appendChild(displayAddNewTaskToListButton());
+    individualTaskContainerDiv.appendChild(displayAddNewTaskToListButton(addTaskToList));
 
     // append task to list
     toDoListMainSection.append(individualTaskContainerDiv);
@@ -267,14 +285,9 @@ function addTaskToList() {
     currentTaskWaitingToBeAdded.setTaskName(document.getElementById("task-name").value);
     const individualTaskDueDateAsOriginalString = document.getElementById("due-date").value;
 
-    // console.log(`The type of the date field is: ${typeof(individualTaskDueDateAsOriginalString)}`);
-    // console.log(individualTaskDueDateAsOriginalString);
-
     if (individualTaskDueDateAsOriginalString) {
         const individualTaskDueDateAsStringFormatted = format(parseISO(individualTaskDueDateAsOriginalString), 'MM/dd/yyyy');
         currentTaskWaitingToBeAdded.setDueDate(individualTaskDueDateAsStringFormatted);
-        console.log(individualTaskDueDateAsStringFormatted);
-        console.log(`Thee type of the date field is: ${typeof(individualTaskDueDateAsStringFormatted)}`);
     }
     console.log(currentTaskWaitingToBeAdded.getTaskName());
     console.log(currentTaskWaitingToBeAdded.getDueDate());
@@ -289,8 +302,8 @@ function addTaskToList() {
     toDoListMainList.addTask(taskAsObject);
 
     const individualTaskContainerDiv = makeIndividualTaskContainer();
-    const individualTaskNameContainerDiv = makeindividualTaskPropertyContainer();
-    const individualDueDateContainer = makeindividualTaskPropertyContainer();
+    const individualTaskNameContainerDiv = makePropertyContainer();
+    const individualDueDateContainer = makePropertyContainer();
     individualTaskNameContainerDiv.innerHTML = `${toDoListMainList.getNumberOfTasks()}.\u00A0\u00A0\u00A0${currentTaskWaitingToBeAdded.getTaskName()}`;
     individualDueDateContainer.innerHTML = currentTaskWaitingToBeAdded.getDueDate();
 
