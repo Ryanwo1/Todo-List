@@ -12,7 +12,8 @@ const mainAppTitle = document.getElementById("main-app-title");
 const addTaskButton = document.getElementById("new-task-button");
 const addProjectButton = document.getElementById("new-project-button");
 const toDoListMainSection = document.getElementById("todo-list-main-section");
-const todoMainProjectSection = document.getElementById("projects-container");
+const todoMainProjectSection = document.getElementById("sidebar");
+
 const appState = (function () {
     let newTaskInputBoxesAppearing = false;
     let newProjectInputBoxesAppearing = false;
@@ -193,7 +194,7 @@ function showInputFieldsForNewProject() {
     const projectTaskContainerDiv = makeIndividualProjectContainer();
     const projectTaskNameContainerDiv = makePropertyContainer();
     
-    if (appState.getStateOfNewTaskBoxes()) {
+    if (appState.getStateOfNewProjectBoxes()) {
         alert("only 1 box at a time!");
         return;
     }
@@ -216,18 +217,36 @@ function showInputFieldsForNewProject() {
     individualPriorityContainer.appendChild(individualPriorityLabel);
     individualPriorityContainer.appendChild(individualPriorityInput);
 
-    // // append task name and due date containers to individual task container, forming an individual task on the page.
+    // // append project name and priority containers to individual task container, forming an individual project on the page.
     projectTaskContainerDiv.appendChild(projectTaskNameContainerDiv);
     projectTaskContainerDiv.appendChild(individualPriorityContainer);
     projectTaskContainerDiv.appendChild(displayAddNewTaskToListButton(addProjectToList));
 
-    // // append task to list
+    // // append project to list
+    // this might have to be changed to some kind of sidebar getter
     toDoListMainSection.append(projectTaskContainerDiv);
 
 }
 
 function addProjectToList() {
+    const individiualProjectContainer = document.createElement("div");
+    const individualProjectName = document.createElement("p");
+    
+    individualProjectName.innerHTML = document.getElementById("task-name").value;
 
+    individiualProjectContainer.appendChild(individualProjectName);
+    todoMainProjectSection.appendChild(individiualProjectContainer);
+
+    // this will delete on click. Trying to see how this will work before transfering functionality to its own button
+
+    individiualProjectContainer.addEventListener("click", deleteProject)
+}
+
+function deleteProject(e) {
+    const item = e.target;
+    const todo = item.parentElement;
+
+    todo.remove();
 }
 
 
