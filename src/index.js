@@ -272,8 +272,6 @@ function getLocalTodos(todo) {
     
         individualTaskContainerDiv.appendChild(individualTaskNameContainerDiv);
         individualTaskContainerDiv.appendChild(individualDueDateContainer);
-        // console.log("The individual taskname container is " + individualTaskNameContainerDiv);
-        // console.log("The individual duedate container is " + individualDueDateContainer);
         individualTaskContainerDiv.innerHTML = todo;
         individualTaskContainerDiv.addEventListener("click", deleteProject)
         mainHeading.appendChild(individualTaskContainerDiv);
@@ -308,7 +306,6 @@ function addProjectToList() {
     individiualProjectContainer.addEventListener("click", deleteProject)
 
     // add Project to localStorage
-    console.log("The individual project container is " + individiualProjectContainer);
     saveLocalProjects(individiualProjectContainer.outerHTML);
 }
 
@@ -318,7 +315,6 @@ function deleteProject(e) {
 
     todo.remove();
 }
-
 
 function showInputFieldsForNewTask() {
 
@@ -331,9 +327,6 @@ function showInputFieldsForNewTask() {
         alert("only 1 box at a time!");
         return;
     }
-
-
-
     // toggle to true if we currently have a task to be added
     appState.toggleStateOfNewTaskBoxes();
 
@@ -364,10 +357,6 @@ function showInputFieldsForNewTask() {
 
     // append task to list
     toDoListMainSection.append(individualTaskContainerDiv);
-
-
-    // toDoListMainList.showNumberOfTasks();
-    // toDoListMainList.showTasks(); 
 }
 
 function addTaskToList() {
