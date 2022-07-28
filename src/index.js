@@ -250,6 +250,7 @@ function getLocalProjects() {
 
     projects.forEach(function(project) {
         const container = document.createElement("div");
+        container.addEventListener("click", deleteProject)
         container.innerHTML = project;
         todoMainProjectSection.appendChild(container);
         });
@@ -274,6 +275,7 @@ function getLocalTodos(todo) {
         // console.log("The individual taskname container is " + individualTaskNameContainerDiv);
         // console.log("The individual duedate container is " + individualDueDateContainer);
         individualTaskContainerDiv.innerHTML = todo;
+        individualTaskContainerDiv.addEventListener("click", deleteProject)
         mainHeading.appendChild(individualTaskContainerDiv);
         });
 }
@@ -376,9 +378,6 @@ function addTaskToList() {
         const individualTaskDueDateAsStringFormatted = format(parseISO(individualTaskDueDateAsOriginalString), 'MM/dd/yyyy');
         currentTaskWaitingToBeAdded.setDueDate(individualTaskDueDateAsStringFormatted);
     }
-    console.log(currentTaskWaitingToBeAdded.getTaskName());
-    console.log(currentTaskWaitingToBeAdded.getDueDate());
-
 
     if (!currentTaskWaitingToBeAdded.getTaskName() || !currentTaskWaitingToBeAdded.getDueDate()) {
         return
@@ -396,15 +395,13 @@ function addTaskToList() {
 
     individualTaskContainerDiv.appendChild(individualTaskNameContainerDiv);
     individualTaskContainerDiv.appendChild(individualDueDateContainer);
-    console.log("The individual taskname container is " + individualTaskContainerDiv);
-
-    saveLocalTodos(individualTaskContainerDiv);
-
-    const mainHeading = document.getElementById("main-app-title");
-    mainHeading.appendChild(individualTaskContainerDiv);
 
     // add Task to localStorage
+    saveLocalTodos(individualTaskContainerDiv);
 
+    individualTaskContainerDiv.addEventListener("click", deleteProject);
+    const mainHeading = document.getElementById("main-app-title");
+    mainHeading.appendChild(individualTaskContainerDiv);
 
     removeInputFields(mainHeading);
 
