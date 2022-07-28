@@ -186,10 +186,6 @@ function displayAddNewTaskToListButton(functionToAddToListener) {
     return finalizeAddTaskButton;
 }
 
-function addNewProjectToListButton() {
-
-}
-
 function showInputFieldsForNewProject() {
     const projectTaskContainerDiv = makeIndividualProjectContainer();
     const projectTaskNameContainerDiv = makePropertyContainer();
@@ -306,6 +302,8 @@ function addProjectToList() {
     individiualProjectContainer.addEventListener("click", deleteProject)
 
     // add Project to localStorage
+    appState.toggleStateOfNewProjectBoxes();
+    removeInputFields(todoMainProjectSection);
     saveLocalProjects(individiualProjectContainer.outerHTML);
 }
 
