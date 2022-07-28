@@ -14,6 +14,9 @@ const addProjectButton = document.getElementById("new-project-button");
 const toDoListMainSection = document.getElementById("todo-list-main-section");
 const todoMainProjectSection = document.getElementById("sidebar");
 
+document.addEventListener("DOMContentLoaded", getLocalTodos);
+document.addEventListener("DOMContentLoaded", getLocalProjects);
+
 const appState = (function () {
     let newTaskInputBoxesAppearing = false;
     let newProjectInputBoxesAppearing = false;
@@ -133,9 +136,6 @@ function toDoListItemAsObject(title, dueDate) {
     this.dueDate = dueDate;
 }
 
-
-
-
 function makeIndividualTaskContainer() {
     const individualTaskContainer = document.createElement("div");
     individualTaskContainer.setAttribute("id", `task-number-${toDoListMainList.numberOfTasks}`)
@@ -228,6 +228,70 @@ function showInputFieldsForNewProject() {
 
 }
 
+function saveLocalProjects(project) {
+    let projects;
+    console.log("The project is " + project);
+    if(localStorage.getItem("projects") === null) {
+        projects = [];
+    } else (projects = JSON.parse(localStorage.getItem("projects")));
+
+    projects.push(project);
+    localStorage.setItem("projects", JSON.stringify(projects));
+}
+
+function getLocalProjects() {
+    const todoMainProjectSection = document.getElementById("sidebar");
+    let projects;
+
+    if(localStorage.getItem("projects") === null) {
+        projects = [];
+    } else (projects = JSON.parse(localStorage.getItem("projects")));
+    console.log(`this is the local storage projects: ${projects} with type ${typeof projects}`);
+
+    projects.forEach(function(project) {
+        const container = document.createElement("div");
+        container.innerHTML = project;
+        todoMainProjectSection.appendChild(container);
+        });
+}
+
+function getLocalTodos(todo) {
+    const mainHeading = document.getElementById("main-app-title");
+    let todos;
+
+    if(localStorage.getItem("todos") === null) {
+        todos = [];
+    } else (todos = JSON.parse(localStorage.getItem("todos")));
+    console.log(`this is the local storage todos: ${todos} with type ${typeof todos}`);
+
+    todos.forEach(function(todo) {
+        const individualTaskContainerDiv = makeIndividualTaskContainer();
+        const individualTaskNameContainerDiv = makePropertyContainer();
+        const individualDueDateContainer = makePropertyContainer();
+    
+        individualTaskContainerDiv.appendChild(individualTaskNameContainerDiv);
+        individualTaskContainerDiv.appendChild(individualDueDateContainer);
+        // console.log("The individual taskname container is " + individualTaskNameContainerDiv);
+        // console.log("The individual duedate container is " + individualDueDateContainer);
+        individualTaskContainerDiv.innerHTML = todo;
+        mainHeading.appendChild(individualTaskContainerDiv);
+        });
+}
+
+function saveLocalTodos(todo) {
+    let todos;
+
+    console.log("The todo is: " + todo);
+
+    if(localStorage.getItem("todos") === null) {
+        todos = [];
+    } else (todos = JSON.parse(localStorage.getItem("todos")));
+    console.log("The todo innerHTML is: " + todo);
+    todos.push(todo.innerHTML);
+    localStorage.setItem("todos", JSON.stringify(todos));
+    console.log("Todos stringified is " + JSON.stringify(todos));
+}
+
 function addProjectToList() {
     const individiualProjectContainer = document.createElement("div");
     const individualProjectName = document.createElement("p");
@@ -240,6 +304,10 @@ function addProjectToList() {
     // this will delete on click. Trying to see how this will work before transfering functionality to its own button
 
     individiualProjectContainer.addEventListener("click", deleteProject)
+
+    // add Project to localStorage
+    console.log("The individual project container is " + individiualProjectContainer);
+    saveLocalProjects(individiualProjectContainer.outerHTML);
 }
 
 function deleteProject(e) {
@@ -316,7 +384,7 @@ function addTaskToList() {
         return
     }
 
-    // convert task to object and add to tasklist
+    // convert task to object and add to tasklist. if you return to this project, the objects have to be added to localStorage as well
     const taskAsObject = new toDoListItemAsObject(currentTaskWaitingToBeAdded.getTaskName(), currentTaskWaitingToBeAdded.getDueDate());
     toDoListMainList.addTask(taskAsObject);
 
@@ -328,10 +396,15 @@ function addTaskToList() {
 
     individualTaskContainerDiv.appendChild(individualTaskNameContainerDiv);
     individualTaskContainerDiv.appendChild(individualDueDateContainer);
+    console.log("The individual taskname container is " + individualTaskContainerDiv);
 
+    saveLocalTodos(individualTaskContainerDiv);
 
     const mainHeading = document.getElementById("main-app-title");
     mainHeading.appendChild(individualTaskContainerDiv);
+
+    // add Task to localStorage
+
 
     removeInputFields(mainHeading);
 
